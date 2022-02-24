@@ -26,6 +26,7 @@ def one_cycle():
         target = [i[:-1] for i in target]
 
     counter = 0
+    select = 0
     while counter < 100:
         for i in range(1, page_max + 1):
             courses = crawler.request_page_in_form(sub_cate, i)
@@ -35,20 +36,25 @@ def one_cycle():
                 if course.course_id in target and course.empty:
                     ret = crawler.send_submit(i, course.course_id, sub_cate)
                     if ret == 0:
+                        select += 1
                         print("got it")
             time.sleep(5)
             counter += 1
 
     user.logout()
-    return 1
+    return str(select)
 
 def main():
     logger_init(enable_debug=True)
 
     #account = "407410001"
     #passwd = "NpFcD02-15"
+    select = 0
     while(1):
-        one_cycle()
+        select = one_cycle()
+        if type(select) is str:
+            with open("result", "w") as op:
+                op.write(select)
 
     #alive_daemon.join()
 
