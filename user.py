@@ -86,3 +86,12 @@ class CCU_User:
         self.is_idle = True
         self.is_alive = True
         return 0
+
+    def logout(self):
+        url = rf"http://kiki.ccu.edu.tw/~ccmisp06/cgi-bin/class/logout.php?session_id={self.session_id}"
+
+        ret = requests.get(url, headers=self.headers)
+        ret.encoding = "utf-8"
+        logging.debug(ret.text)
+
+        return 0

@@ -6,12 +6,7 @@ from debug import logger_init
 from debug import Error
 import time
 
-
-def main():
-    logger_init(enable_debug=True)
-
-    #account = "407410001"
-    #passwd = "NpFcD02-15"
+def one_cycle():
     account = "407530012"
     passwd = "andy0707"
     user = CCU_User(account, passwd)
@@ -30,7 +25,8 @@ def main():
         target = t.readlines()
         target = [i[:-1] for i in target]
 
-    while 1:
+    counter = 0
+    while counter < 100:
         for i in range(1, page_max + 1):
             courses = crawler.request_page_in_form(sub_cate, i)
             if type(courses) is not list:
@@ -41,6 +37,18 @@ def main():
                     if ret == 0:
                         print("got it")
             time.sleep(5)
+            counter += 1
+
+    user.logout()
+    return 1
+
+def main():
+    logger_init(enable_debug=True)
+
+    #account = "407410001"
+    #passwd = "NpFcD02-15"
+    while(1):
+        one_cycle()
 
     #alive_daemon.join()
 
