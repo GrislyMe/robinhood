@@ -1,4 +1,3 @@
-from ssl import PEM_cert_to_DER_cert
 from user import CCU_User
 from debug import Error
 from bs4 import BeautifulSoup as bs
@@ -124,7 +123,7 @@ class Course():
             logging.error("courses info error")
 
         self.name = str(course[2].text)
-        self.course_id = int(self.name[:7])
+        self.course_id = str(self.name[:7])
         self.teacher = course[3].text
         self.time = course[7].text
 

@@ -7,8 +7,10 @@ from debug import Error
 import time
 
 def one_cycle():
-    account = "407530012"
-    passwd = "andy0707"
+    #account = "407530012"
+    #passwd = "andy0707"
+    account = "407410001"
+    passwd = "NpFcD02-15"
     user = CCU_User(account, passwd)
     user.login()
 
@@ -19,8 +21,8 @@ def one_cycle():
     crawler.request_course_form(2)
     course = []
 
-    sub_cate = 2
-    page_max = 2
+    sub_cate = 3
+    page_max = 3
     with open("target", "r") as t:
         target = t.readlines()
         target = [i[:-1] for i in target]
@@ -33,7 +35,8 @@ def one_cycle():
             if type(courses) is not list:
                 return Error.GET_REQUEST_FAIL
             for course in courses:
-                if course.course_id in target and course.empty:
+                print(course.course_id, target)
+                if (course.course_id in target) and course.empty != 0:
                     ret = crawler.send_submit(i, course.course_id, sub_cate)
                     if ret == 0:
                         select += 1
@@ -47,14 +50,13 @@ def one_cycle():
 def main():
     logger_init(enable_debug=True)
 
-    #account = "407410001"
-    #passwd = "NpFcD02-15"
     select = 0
     while(1):
         select = one_cycle()
         if type(select) is str:
             with open("result", "w") as op:
                 op.write(select)
+        time.sleep(1)
 
     #alive_daemon.join()
 
